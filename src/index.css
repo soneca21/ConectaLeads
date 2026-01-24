@@ -1,0 +1,45 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-primary: #0a0a0a;
+  --bg-secondary: #1a1a1a;
+  --text-primary: #ffffff;
+  --text-secondary: #b0b0b0;
+  --accent-orange: #ff6b35;
+  --category-blue: #3b82f6;
+  --category-pink: #ec4899;
+  --category-green: #10b981;
+  --category-purple: #8b5cf6;
+}
+
+body {
+    @apply bg-[var(--bg-primary)] text-[var(--text-primary)];
+    font-family: 'DM Sans', sans-serif;
+}
+
+/* Custom Utilities */
+.card-hover {
+  @apply transition-all duration-300 hover:shadow-lg hover:-translate-y-1 hover:shadow-orange-500/10;
+}
+
+.gradient-text {
+  @apply bg-clip-text text-transparent bg-gradient-to-r from-white to-gray-400;
+}
+
+.glass-panel {
+  @apply bg-[#1a1a1a]/80 backdrop-blur-md border border-white/5;
+}
+
+/* Scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+::-webkit-scrollbar-track {
+  @apply bg-[#0a0a0a];
+}
+::-webkit-scrollbar-thumb {
+  @apply bg-[#333] rounded-full hover:bg-[#444];
+}
