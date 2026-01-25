@@ -19,19 +19,24 @@ import AdminPipeline from '@/pages/AdminPipeline';
 import AdminInbox from '@/pages/AdminInbox';
 import AdminOffers from '@/pages/AdminOffers';
 import AdminOfferForm from '@/pages/AdminOfferForm';
+
 import AdminSettings from '@/pages/AdminSettings';
 import AdminPrompts from '@/pages/AdminPrompts';
-import ShopeeCallback from '@/pages/ShopeeCallback'; // New page
+import ShopeeCallback from '@/pages/ShopeeCallback';
+import AdminLeadForm from '@/pages/AdminLeadForm';
+import CategoryPage from '@/pages/CategoryPage';
+import { useAuth } from '@/contexts/SupabaseAuthContext';
+import { useUserProfile } from '@/hooks/useUserProfile';
 
 const AdminLayout = () => {
-  // Use localStorage for now as simple auth check for admin routes
-  // In a real app, use the useAuth hook from AuthProvider
-  const isAuthenticated = localStorage.getItem('auth_token'); 
+  const { user, loading } = useAuth();
+  const { profile, loading: loadingProfile } = useUserProfile(user);
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" replace />;
+  if (loading || loadingProfile) return <div className="p-8 text-center text-gray-500">Carregando...</div>;
+  if (!user) return <Navigate to="/login" replace />;
+  if (!profile || (profile.role !== 'admin' && window.location.pathname.includes('settings'))) {
+    return <div className="p-8 text-center text-red-500">Acesso restrito. Apenas administradores podem acessar esta área.</div>;
   }
-
   return (
     <div className="flex min-h-screen bg-[var(--bg-primary)]">
       <Sidebar />
@@ -53,6 +58,7 @@ function App() {
           {/* Public Routes */}
           <Route path="/" element={<Home />} />
           <Route path="/o/:slug" element={<OfferDetail />} />
+          <Route path="/category/:slug" element={<CategoryPage />} />
           
           {/* Shopee OAuth Callback - Needs to be public/accessible */}
           <Route path="/api/shopee/auth/callback" element={<ShopeeCallback />} />
@@ -66,6 +72,8 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
             
             <Route path="leads" element={<AdminLeads />} />
+            <Route path="leads/new" element={<AdminLeadForm />} />
+            <Route path="leads/:id/edit" element={<AdminLeadForm />} />
             <Route path="leads/:id" element={<AdminLeadDetail />} />
             
             <Route path="pipeline" element={<AdminPipeline />} />

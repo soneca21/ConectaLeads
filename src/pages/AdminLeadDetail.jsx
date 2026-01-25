@@ -16,6 +16,8 @@ const AdminLeadDetail = () => {
   const { toast } = useToast();
   
   const [lead, setLead] = useState(null);
+  const [editData, setEditData] = useState({ name: '', phone: '', email: '', score: 0, source: '' });
+  const [saving, setSaving] = useState(false);
   const [events, setEvents] = useState([]);
   const [loading, setLoading] = useState(true);
   const [qualifications, setQualifications] = useState(null);
@@ -36,6 +38,13 @@ const AdminLeadDetail = () => {
 
       if (leadError) throw leadError;
       setLead(leadData);
+      setEditData({
+        name: leadData.name || '',
+        phone: leadData.phone || '',
+        email: leadData.email || '',
+        score: leadData.score || 0,
+        source: leadData.source || ''
+      });
 
       // Fetch events
       const { data: eventsData } = await supabase
@@ -83,6 +92,25 @@ const AdminLeadDetail = () => {
     }
   };
 
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setEditData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleSave = async () => {
+    setSaving(true);
+    try {
+      const { error } = await supabase.from('leads').update(editData).eq('id', id);
+      if (error) throw error;
+      setLead(prev => ({ ...prev, ...editData }));
+      toast({ title: 'Sucesso', description: 'Lead atualizado com sucesso!' });
+    } catch (err) {
+      toast({ variant: 'destructive', title: 'Erro', description: err.message });
+    } finally {
+      setSaving(false);
+    }
+  };
+
   const handleWhatsAppClick = () => {
     if (lead?.phone) {
        window.open(`https://wa.me/${lead.phone}`, '_blank');
@@ -106,8 +134,8 @@ const AdminLeadDetail = () => {
           <Button variant="outline" className="border-green-500/50 text-green-500 hover:bg-green-500/10" onClick={handleWhatsAppClick}>
             <MessageCircle size={18} className="mr-2" /> WhatsApp
           </Button>
-          <Button className="bg-orange-600 hover:bg-orange-700">
-            <Save size={18} className="mr-2" /> Salvar Mudanças
+          <Button className="bg-orange-600 hover:bg-orange-700" onClick={handleSave} disabled={saving}>
+            <Save size={18} className="mr-2" /> {saving ? 'Salvando...' : 'Salvar Mudanças'}
           </Button>
         </div>
       </div>
@@ -138,13 +166,27 @@ const AdminLeadDetail = () => {
 
               <div>
                  <label className="text-xs text-gray-500 uppercase">Informações de Contato</label>
-                 <div className="flex items-center gap-2 mt-2 text-gray-300">
-                   <Phone size={16} className="text-gray-500" />
-                   {lead.phone}
-                 </div>
-                 <div className="flex items-center gap-2 mt-2 text-gray-300">
-                   <User size={16} className="text-gray-500" />
-                   {lead.source}
+                 <div className="flex flex-col gap-2 mt-2">
+                   <label className="flex items-center gap-2 text-gray-300">
+                     <Phone size={16} className="text-gray-500" />
+                     <input name="phone" value={editData.phone} onChange={handleChange} className="bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white w-full" />
+                   </label>
+                   <label className="flex items-center gap-2 text-gray-300">
+                     <User size={16} className="text-gray-500" />
+                     <input name="source" value={editData.source} onChange={handleChange} className="bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white w-full" />
+                   </label>
+                   <label className="flex items-center gap-2 text-gray-300">
+                     <span className="text-gray-500">Email:</span>
+                     <input name="email" value={editData.email} onChange={handleChange} className="bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white w-full" />
+                   </label>
+                   <label className="flex items-center gap-2 text-gray-300">
+                     <span className="text-gray-500">Score:</span>
+                     <input name="score" type="number" value={editData.score} onChange={handleChange} className="bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white w-full" />
+                   </label>
+                   <label className="flex items-center gap-2 text-gray-300">
+                     <span className="text-gray-500">Nome:</span>
+                     <input name="name" value={editData.name} onChange={handleChange} className="bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white w-full" />
+                   </label>
                  </div>
               </div>
             </div>

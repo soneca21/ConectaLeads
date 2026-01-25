@@ -1,5 +1,6 @@
 
 import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
@@ -11,6 +12,7 @@ import { ptBR } from 'date-fns/locale';
 
 const AdminLeads = () => {
   const [leads, setLeads] = useState([]);
+  const navigate = useNavigate();
   const [loading, setLoading] = useState(true);
   const [filterStage, setFilterStage] = useState('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -62,7 +64,7 @@ const AdminLeads = () => {
     <div className="p-6 max-w-[1600px] mx-auto">
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 gap-4">
         <h1 className="text-3xl font-bold text-white">Gerenciar Leads</h1>
-        <Button className="bg-orange-600 hover:bg-orange-700">Adicionar Lead</Button>
+        <Button className="bg-orange-600 hover:bg-orange-700" onClick={() => navigate('/admin/leads/new')}>Adicionar Lead</Button>
       </div>
 
       <div className="flex flex-col md:flex-row gap-4 mb-6">
@@ -133,10 +135,10 @@ const AdminLeads = () => {
                   </TableCell>
                   <TableCell className="text-right">
                     <div className="flex justify-end gap-2">
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-white hover:bg-gray-800">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-gray-400 hover:text-white hover:bg-gray-800" onClick={() => navigate(`/admin/leads/${lead.id}`)}>
                         <Eye size={16} />
                       </Button>
-                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-400 hover:text-blue-300 hover:bg-blue-900/20">
+                      <Button variant="ghost" size="icon" className="h-8 w-8 text-blue-400 hover:text-blue-300 hover:bg-blue-900/20" onClick={() => navigate(`/admin/leads/${lead.id}/edit`)}>
                         <Edit size={16} />
                       </Button>
                     </div>

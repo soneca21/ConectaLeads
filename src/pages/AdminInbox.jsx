@@ -64,11 +64,20 @@ const AdminInbox = () => {
     }
   };
 
+  // Simulação de envio para API WhatsApp (futuro)
+  const sendWhatsAppMessage = async (to, text) => {
+    // Aqui será feita a chamada real para API WhatsApp
+    // Exemplo:
+    // await fetch(process.env.VITE_WHATSAPP_API_URL, { method: 'POST', body: JSON.stringify({ to, text }) })
+    // Por enquanto, simula sucesso
+    return { success: true };
+  };
+
   const handleSendMessage = async () => {
     if (!newMessage.trim() || !selectedConvId) return;
 
     try {
-      // 1. Insert message
+      // 1. Insert message local
       const { error } = await supabase
         .from('messages')
         .insert({
@@ -80,7 +89,13 @@ const AdminInbox = () => {
 
       if (error) throw error;
 
-      // 2. Update conversation timestamp
+      // 2. (Futuro) Enviar via API WhatsApp
+      const conv = conversations.find(c => c.id === selectedConvId);
+      if (conv?.lead?.phone) {
+        await sendWhatsAppMessage(conv.lead.phone, newMessage);
+      }
+
+      // 3. Update conversation timestamp
       await supabase
         .from('conversations')
         .update({ updated_at: new Date().toISOString() })

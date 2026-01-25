@@ -1,5 +1,6 @@
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { supabase } from '@/lib/supabase';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -15,6 +16,31 @@ const AdminSettings = () => {
   const [activeTab, setActiveTab] = useState("users");
   const [isUserModalOpen, setIsUserModalOpen] = useState(false);
   const { toast } = useToast();
+  const [users, setUsers] = useState([]);
+  const [userForm, setUserForm] = useState({ name: '', email: '', role: 'colaborador' });
+  const [loadingUsers, setLoadingUsers] = useState(true);
+  useEffect(() => { fetchUsers(); }, []);
+  async function fetchUsers() {
+    setLoadingUsers(true);
+    const { data, error } = await supabase.from('users').select('*').order('created_at', { ascending: false });
+    if (!error) setUsers(data || []);
+    setLoadingUsers(false);
+  }
+  async function handleCreateUser() {
+    if (!userForm.name || !userForm.email) {
+      toast({ variant: 'destructive', title: 'Erro', description: 'Nome e email obrigatórios.' });
+      return;
+    }
+    const { error } = await supabase.from('users').insert([{ ...userForm }]);
+    if (error) {
+      toast({ variant: 'destructive', title: 'Erro', description: error.message });
+    } else {
+      toast({ title: 'Usuário Criado', description: 'Convite enviado.' });
+      setIsUserModalOpen(false);
+      setUserForm({ name: '', email: '', role: 'colaborador' });
+      fetchUsers();
+    }
+  }
 
   const handleSave = () => {
     toast({ title: "Configurações Salvas", description: "Alterações aplicadas com sucesso." });
@@ -50,12 +76,20 @@ const AdminSettings = () => {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                <TableRow className="border-white/5">
-                  <TableCell className="text-white">Usuário Admin</TableCell>
-                  <TableCell className="text-gray-400">admin@example.com</TableCell>
-                  <TableCell><span className="bg-purple-500/20 text-purple-500 px-2 py-1 rounded text-xs">Admin</span></TableCell>
-                  <TableCell className="text-right"><Button variant="ghost" size="sm" className="text-red-400"><Trash2 size={16} /></Button></TableCell>
-                </TableRow>
+                {loadingUsers ? (
+                  <TableRow><TableCell colSpan={4} className="text-center text-gray-500">Carregando...</TableCell></TableRow>
+                ) : users.length === 0 ? (
+                  <TableRow><TableCell colSpan={4} className="text-center text-gray-500">Nenhum usuário encontrado.</TableCell></TableRow>
+                ) : (
+                  users.map(user => (
+                    <TableRow key={user.id} className="border-white/5">
+                      <TableCell className="text-white">{user.name}</TableCell>
+                      <TableCell className="text-gray-400">{user.email}</TableCell>
+                      <TableCell><span className={user.role === 'admin' ? 'bg-purple-500/20 text-purple-500 px-2 py-1 rounded text-xs' : 'bg-blue-500/20 text-blue-500 px-2 py-1 rounded text-xs'}>{user.role}</span></TableCell>
+                      <TableCell className="text-right"><Button variant="ghost" size="sm" className="text-red-400"><Trash2 size={16} /></Button></TableCell>
+                    </TableRow>
+                  ))
+                )}
               </TableBody>
             </Table>
           </div>
@@ -66,6 +100,22 @@ const AdminSettings = () => {
               <div className="space-y-6">
                  <ShopeeIntegrationCard />
                  <ShopeeChatToggle status="available" />
+                 <Button className="bg-orange-600 w-full" onClick={async () => {
+                   try {
+                     // Chama função serverless para iniciar auth Shopee
+                     const { data, error } = await window.supabase.functions.invoke('shopee-auth-start');
+                     if (error) throw error;
+                     if (data?.url) {
+                       window.location.href = data.url;
+                     } else {
+                       throw new Error('URL de autenticação não recebida.');
+                     }
+                   } catch (err) {
+                     toast({ variant: 'destructive', title: 'Erro', description: err.message });
+                   }
+                 }}>
+                   Conectar com Shopee
+                 </Button>
               </div>
               <div className="space-y-6">
                  <ShopeeSyncPanel />
@@ -107,13 +157,13 @@ const AdminSettings = () => {
 
       <Modal isOpen={isUserModalOpen} onClose={() => setIsUserModalOpen(false)} title="Adicionar Novo Usuário">
          <div className="space-y-4">
-           <Input placeholder="Nome" className="bg-[#0a0a0a] border-white/10 text-white" />
-           <Input placeholder="Email" className="bg-[#0a0a0a] border-white/10 text-white" />
-           <Input placeholder="Senha" type="password" className="bg-[#0a0a0a] border-white/10 text-white" />
-           <Button className="w-full bg-orange-600" onClick={() => {
-             toast({ title: "Usuário Criado", description: "Convite enviado." });
-             setIsUserModalOpen(false);
-           }}>Criar Usuário</Button>
+           <Input placeholder="Nome" className="bg-[#0a0a0a] border-white/10 text-white" value={userForm.name} onChange={e => setUserForm(f => ({ ...f, name: e.target.value }))} />
+           <Input placeholder="Email" className="bg-[#0a0a0a] border-white/10 text-white" value={userForm.email} onChange={e => setUserForm(f => ({ ...f, email: e.target.value }))} />
+           <select className="bg-[#0a0a0a] border-white/10 text-white w-full p-2 rounded" value={userForm.role} onChange={e => setUserForm(f => ({ ...f, role: e.target.value }))}>
+             <option value="colaborador">Colaborador</option>
+             <option value="admin">Admin</option>
+           </select>
+           <Button className="w-full bg-orange-600" onClick={handleCreateUser}>Criar Usuário</Button>
          </div>
       </Modal>
     </div>
