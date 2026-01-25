@@ -4,13 +4,10 @@
 
 set -e
 
-echo "== Instalando dependências do frontend =="
-npm install
-
 echo "== Gerando build do frontend =="
-npm run build
-
 echo "== Copiando build para pasta pública (exemplo: public_html) =="
+
+echo "== Copiando build do frontend (dist/) para pasta pública (exemplo: public_html) =="
 # Altere o caminho abaixo conforme sua hospedagem
 cp -r dist/* ../public_html/
 
