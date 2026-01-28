@@ -11,6 +11,8 @@ import { useToast } from '@/components/ui/use-toast';
 import ShopeeIntegrationCard from '@/components/admin/shopee/ShopeeIntegrationCard';
 import ShopeeSyncPanel from '@/components/admin/shopee/ShopeeSyncPanel';
 import ShopeeChatToggle from '@/components/admin/shopee/ShopeeChatToggle';
+import { useTranslation } from 'react-i18next';
+import { loadLanguage } from '@/i18n';
 
 const AdminSettings = () => {
   const [activeTab, setActiveTab] = useState("users");
@@ -19,6 +21,9 @@ const AdminSettings = () => {
   const [users, setUsers] = useState([]);
   const [userForm, setUserForm] = useState({ name: '', email: '', role: 'colaborador' });
   const [loadingUsers, setLoadingUsers] = useState(true);
+  const [generalForm, setGeneralForm] = useState({ companyName: 'ConectaLeads', supportPhone: '+55 11 99999-9999', whatsappNumber: '5511999999999' });
+  const [savingGeneral, setSavingGeneral] = useState(false);
+  const { t, i18n } = useTranslation();
   useEffect(() => { fetchUsers(); }, []);
   async function fetchUsers() {
     setLoadingUsers(true);
@@ -46,16 +51,56 @@ const AdminSettings = () => {
     toast({ title: "Configurações Salvas", description: "Alterações aplicadas com sucesso." });
   };
 
+  useEffect(() => {
+    const fetchGeneralSettings = async () => {
+      const { data, error } = await supabase
+        .from('settings')
+        .select('key, value')
+        .in('key', ['company_name', 'support_phone', 'whatsapp_number', 'language']);
+      if (!error && data) {
+        const map = Object.fromEntries(data.map(item => [item.key, item.value]));
+        setGeneralForm(prev => ({
+          companyName: map.company_name || prev.companyName,
+          supportPhone: map.support_phone || prev.supportPhone,
+          whatsappNumber: (map.whatsapp_number || prev.whatsappNumber || '').replace(/\\D/g, '')
+        }));
+        if (map.language) {
+          loadLanguage(map.language);
+        }
+      }
+    };
+    fetchGeneralSettings();
+  }, []);
+
+  const handleSaveGeneral = async () => {
+    try {
+      setSavingGeneral(true);
+      const payload = [
+        { key: 'company_name', value: generalForm.companyName },
+        { key: 'support_phone', value: generalForm.supportPhone },
+        { key: 'whatsapp_number', value: generalForm.whatsappNumber },
+        { key: 'language', value: i18n.language }
+      ];
+      const { error } = await supabase.from('settings').upsert(payload, { onConflict: 'key' });
+      if (error) throw error;
+      toast({ title: "Configurações salvas", description: "Dados atualizados com sucesso." });
+    } catch (error) {
+      toast({ variant: 'destructive', title: 'Erro', description: error.message });
+    } finally {
+      setSavingGeneral(false);
+    }
+  };
+
   return (
     <div className="p-6 max-w-[1600px] mx-auto">
-      <h1 className="text-3xl font-bold text-white mb-8">Configurações</h1>
+      <h1 className="text-3xl font-bold text-white mb-8">{t('settings.title')}</h1>
 
       <Tabs defaultValue="users" className="space-y-6">
         <TabsList className="bg-[#1a1a1a] border border-white/5 p-1 rounded-lg">
-          <TabsTrigger value="users" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-gray-400">Usuários</TabsTrigger>
-          <TabsTrigger value="integrations" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-gray-400">Integrações</TabsTrigger>
-          <TabsTrigger value="templates" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-gray-400">Templates</TabsTrigger>
-          <TabsTrigger value="general" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-gray-400">Geral</TabsTrigger>
+          <TabsTrigger value="users" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-gray-400">{t('settings.tabs.users')}</TabsTrigger>
+          <TabsTrigger value="integrations" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-gray-400">{t('settings.tabs.integrations')}</TabsTrigger>
+          <TabsTrigger value="templates" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-gray-400">{t('settings.tabs.templates')}</TabsTrigger>
+          <TabsTrigger value="general" className="data-[state=active]:bg-orange-600 data-[state=active]:text-white text-gray-400">{t('settings.tabs.general')}</TabsTrigger>
         </TabsList>
 
         <TabsContent value="users" className="space-y-4">
@@ -141,17 +186,53 @@ const AdminSettings = () => {
         </TabsContent>
 
         <TabsContent value="general" className="space-y-6">
-           <div className="bg-[#1a1a1a] p-6 rounded-xl border border-white/5 max-w-2xl space-y-4">
+             <div className="bg-[#1a1a1a] p-6 rounded-xl border border-white/5 max-w-2xl space-y-4">
              <div>
-               <label className="text-sm text-gray-400">Nome da Empresa</label>
-               <Input className="bg-[#0a0a0a] border-white/10 text-white mt-1" defaultValue="ConectaLeads" />
+               <label className="text-sm text-gray-400">{t('settings.general.companyName')}</label>
+               <Input
+                 className="bg-[#0a0a0a] border-white/10 text-white mt-1"
+                 value={generalForm.companyName}
+                 onChange={(e) => setGeneralForm(f => ({ ...f, companyName: e.target.value }))}
+               />
              </div>
              <div>
-               <label className="text-sm text-gray-400">Telefone de Suporte</label>
-               <Input className="bg-[#0a0a0a] border-white/10 text-white mt-1" defaultValue="+55 11 99999-9999" />
+               <label className="text-sm text-gray-400">{t('settings.general.supportPhone')}</label>
+               <Input
+                 className="bg-[#0a0a0a] border-white/10 text-white mt-1"
+                 value={generalForm.supportPhone}
+                 onChange={(e) => setGeneralForm(f => ({ ...f, supportPhone: e.target.value }))}
+               />
              </div>
-             <Button className="bg-orange-600 hover:bg-orange-700" onClick={handleSave}>Salvar Mudanças</Button>
-           </div>
+             <div>
+               <label className="text-sm text-gray-400">{t('settings.general.whatsappNumber')}</label>
+               <Input
+                 className="bg-[#0a0a0a] border-white/10 text-white mt-1"
+                 value={generalForm.whatsappNumber}
+                 onChange={(e) => setGeneralForm(f => ({ ...f, whatsappNumber: e.target.value }))}
+                 placeholder="5511999999999"
+               />
+             </div>
+             <div>
+               <label className="text-sm text-gray-400">{t('settings.general.language')}</label>
+               <select
+                 value={i18n.language}
+                 onChange={async (e) => {
+                   await loadLanguage(e.target.value);
+                 }}
+                 className="bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white text-sm h-10 mt-1"
+               >
+                 <option value="pt">Português</option>
+                 <option value="en">English</option>
+               </select>
+             </div>
+             <Button
+               className="bg-orange-600 hover:bg-orange-700"
+               onClick={handleSaveGeneral}
+               disabled={savingGeneral}
+             >
+               {savingGeneral ? 'Salvando...' : t('settings.general.save')}
+             </Button>
+            </div>
         </TabsContent>
       </Tabs>
 

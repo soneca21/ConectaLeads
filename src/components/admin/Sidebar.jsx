@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, GitPullRequest, Inbox, ShoppingBag, Settings, LogOut, ChevronLeft, ChevronRight, Sparkles, MessageSquare as MessageSquareCode } from 'lucide-react';
+import { LayoutDashboard, Users, GitPullRequest, Inbox, ShoppingBag, Settings, LogOut, ChevronLeft, ChevronRight, Sparkles, MessageSquare as MessageSquareCode, Tags } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { signOut } from '@/lib/auth';
@@ -20,7 +20,8 @@ const Sidebar = () => {
     { icon: Users, label: 'Leads', path: '/admin/leads' },
     { icon: GitPullRequest, label: 'Pipeline', path: '/admin/pipeline' },
     { icon: Inbox, label: 'Caixa de Entrada', path: '/admin/inbox' },
-    { icon: ShoppingBag, label: 'Ofertas', path: '/admin/offers' },
+    { icon: ShoppingBag, label: 'Catálogo', path: '/admin/offers' },
+    { icon: Tags, label: 'Categorias & Tags', path: '/admin/catalog' },
     { icon: MessageSquareCode, label: 'Prompts', path: '/admin/prompts' },
     { icon: Settings, label: 'Configurações', path: '/admin/settings' },
   ];

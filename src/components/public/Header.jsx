@@ -1,20 +1,62 @@
 
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useEffect, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { Search, Menu, X, Sparkles } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useLocalization } from '@/contexts/LocalizationContext';
+import LanguageCurrencySwitcher from '@/components/public/LanguageCurrencySwitcher';
+import { supabase } from '@/lib/supabase';
+import { fetchCategories } from '@/lib/catalog';
 
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [query, setQuery] = useState('');
+  const [results, setResults] = useState([]);
+  const [searching, setSearching] = useState(false);
+  const [categories, setCategories] = useState([]);
+  const navigate = useNavigate();
+  const { t } = useLocalization();
 
-  const navItems = [
-    { label: 'Gadgets', path: '/category/gadgets' },
-    { label: 'Beleza', path: '/category/beauty' },
-    { label: 'Casa', path: '/category/home' },
-    { label: 'Coleções', path: '/collections' },
-  ];
+  useEffect(() => {
+    fetchCategories().then((cats) => setCategories(cats || []));
+  }, []);
+
+  const navItems =
+    categories.length > 0
+      ? categories.slice(0, 4).map((c) => ({ label: c.name, path: `/category/${c.slug || c.name.toLowerCase()}` }))
+      : [
+          { label: 'Gadgets', path: '/category/gadgets' },
+          { label: 'Beleza', path: '/category/beauty' },
+          { label: 'Casa', path: '/category/home' },
+          { label: 'Coleções', path: '/collections' }
+        ];
+
+  const runSearch = async (value) => {
+    setQuery(value);
+    if (!value || value.length < 2) {
+      setResults([]);
+      return;
+    }
+    setSearching(true);
+    const searchValue = `%${value}%`;
+    const [{ data: offerMatches }, { data: descMatches }] = await Promise.all([
+      supabase.from('offers').select('id, title, category, slug').ilike('title', searchValue).limit(5),
+      supabase.from('offers').select('id, title, category, slug').ilike('description', searchValue).limit(5)
+    ]);
+    const merged = [...(offerMatches || []), ...(descMatches || [])].filter(
+      (item, idx, arr) => arr.findIndex((el) => el.id === item.id) === idx
+    );
+    setResults(merged);
+    setSearching(false);
+  };
+
+  const handleSelectResult = (slug) => {
+    setResults([]);
+    setQuery('');
+    navigate(`/o/${slug}`);
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full border-b border-white/5 bg-[#1a1a1a]/95 backdrop-blur supports-[backdrop-filter]:bg-[#1a1a1a]/60">
@@ -44,13 +86,35 @@ const Header = () => {
 
         {/* Search & Actions */}
         <div className="hidden md:flex items-center gap-4">
-          <div className="relative w-64">
+          <div className="relative w-72">
             <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-gray-500" />
             <Input 
-              placeholder="Buscar achados..." 
+              placeholder={t('explore_categories', 'Buscar achados...')} 
+              value={query}
+              onChange={(e) => runSearch(e.target.value)}
               className="pl-9 bg-[#0a0a0a] border-white/10 text-white focus:border-accent-orange/50 h-9"
             />
+            {query && (
+              <div className="absolute mt-1 w-full bg-[#0b0d13] border border-white/10 rounded-xl shadow-2xl z-20 max-h-64 overflow-y-auto">
+                {searching && <p className="px-3 py-2 text-xs text-gray-400">Buscando...</p>}
+                {!searching && results.length === 0 && (
+                  <p className="px-3 py-2 text-xs text-gray-400">Nenhum resultado</p>
+                )}
+                {!searching &&
+                  results.map((item) => (
+                    <button
+                      key={item.id}
+                      className="w-full text-left px-3 py-2 hover:bg-white/5 text-sm text-white flex justify-between"
+                      onClick={() => handleSelectResult(item.slug)}
+                    >
+                      <span>{item.title}</span>
+                      <span className="text-xs text-gray-400">{item.category}</span>
+                    </button>
+                  ))}
+              </div>
+            )}
           </div>
+          <LanguageCurrencySwitcher />
           <Link to="/login">
              <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">Admin</Button>
           </Link>
@@ -78,9 +142,33 @@ const Header = () => {
               <div className="relative">
                 <Search className="absolute left-3 top-3 h-4 w-4 text-gray-500" />
                 <Input 
-                  placeholder="Buscar achados..." 
+                  placeholder={t('explore_categories', 'Buscar achados...')} 
+                  value={query}
+                  onChange={(e) => runSearch(e.target.value)}
                   className="pl-9 bg-[#0a0a0a] border-white/10 text-white"
                 />
+                {query && (
+                  <div className="absolute mt-1 w-full bg-[#0b0d13] border border-white/10 rounded-xl shadow-lg z-10 max-h-56 overflow-y-auto">
+                    {searching && <p className="px-3 py-2 text-xs text-gray-400">Buscando...</p>}
+                    {!searching && results.length === 0 && (
+                      <p className="px-3 py-2 text-xs text-gray-400">Nenhum resultado</p>
+                    )}
+                    {!searching &&
+                      results.map((item) => (
+                        <button
+                          key={item.id}
+                          className="w-full text-left px-3 py-2 hover:bg-white/5 text-sm text-white flex justify-between"
+                          onClick={() => {
+                            handleSelectResult(item.slug);
+                            setIsMenuOpen(false);
+                          }}
+                        >
+                          <span>{item.title}</span>
+                          <span className="text-xs text-gray-400">{item.category}</span>
+                        </button>
+                      ))}
+                  </div>
+                )}
               </div>
               <nav className="flex flex-col gap-2">
                 {navItems.map((item) => (
@@ -100,6 +188,9 @@ const Header = () => {
                 >
                   Admin Login
                 </Link>
+                <div className="pt-2 border-t border-white/5">
+                  <LanguageCurrencySwitcher />
+                </div>
               </nav>
             </div>
           </motion.div>

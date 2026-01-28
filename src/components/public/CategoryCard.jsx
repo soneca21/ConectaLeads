@@ -34,8 +34,9 @@ const CategoryCard = ({ title, description, icon: Icon, color, path, index }) =>
       <Link 
         to={path} 
         className="inline-flex items-center text-sm font-medium text-white hover:text-accent-orange transition-colors"
+        aria-label={`Explorar categoria ${title}`}
       >
-        Explorar <ArrowRight size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
+        Explorar <ArrowRight aria-hidden="true" size={16} className="ml-2 group-hover:translate-x-1 transition-transform" />
       </Link>
     </motion.div>
   );

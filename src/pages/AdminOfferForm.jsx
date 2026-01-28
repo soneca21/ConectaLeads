@@ -1,34 +1,66 @@
-
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useRef, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
+import { ArrowLeft, Save, Loader2, Plus, Tag as TagIcon } from 'lucide-react';
 import { supabase } from '@/lib/supabase';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
+import Skeleton from '@/components/ui/Skeleton';
 import { useToast } from '@/components/ui/use-toast';
-import { ArrowLeft, Save, Loader2 } from 'lucide-react';
 import ConfirmDialog from '@/components/ui/ConfirmDialog';
+import { fetchCategories, fetchTags } from '@/lib/catalog';
+import { CATEGORIES } from '@/config/constants';
+import { useLocalization } from '@/contexts/LocalizationContext';
+import { generateSlug } from '@/utils/slug';
+
+const EMPTY_FORM = {
+  title: '',
+  slug: '',
+  price: '',
+  price_original: '',
+  discount_percentage: '',
+  currency: 'BRL',
+  category: '',
+  tags: [],
+  shopee_url: '',
+  image_url: '',
+  video_url: '',
+  images: [],
+  description: '',
+  whatsapp_cta_text: 'Quero esse achado!',
+  status: 'draft'
+};
 
 const AdminOfferForm = () => {
   const { id } = useParams();
   const isEdit = !!id;
   const navigate = useNavigate();
   const { toast } = useToast();
+  const { formatPrice } = useLocalization();
 
-  const [formData, setFormData] = useState({
-    title: '',
-    slug: '',
-    price: '',
-    category: '',
-    shopee_url: '',
-    image_url: '',
-    description: '',
-    whatsapp_cta_text: 'Quero esse achado!',
-    status: 'draft'
-  });
+  const [formData, setFormData] = useState(EMPTY_FORM);
+  const [categories, setCategories] = useState([]);
+  const [availableTags, setAvailableTags] = useState([]);
+  const [tagInput, setTagInput] = useState('');
+  const [galleryInput, setGalleryInput] = useState('');
   const [loading, setLoading] = useState(false);
   const [initialLoading, setInitialLoading] = useState(isEdit);
   const [showDelete, setShowDelete] = useState(false);
+  const [originalPrice, setOriginalPrice] = useState(null);
+  const [uploading, setUploading] = useState(false);
+  const [galleryUploading, setGalleryUploading] = useState(false);
+  const [uploadError, setUploadError] = useState('');
+  const fileInputRef = useRef(null);
+  const galleryInputRef = useRef(null);
+  const [slugError, setSlugError] = useState('');
+  const [checkingSlug, setCheckingSlug] = useState(false);
+
+  useEffect(() => {
+    fetchCategories()
+      .then((cats) => setCategories(cats && cats.length ? cats : CATEGORIES))
+      .catch(() => setCategories(CATEGORIES));
+    fetchTags().then(setAvailableTags);
+  }, []);
 
   useEffect(() => {
     if (isEdit) {
@@ -37,21 +69,106 @@ const AdminOfferForm = () => {
   }, [id]);
 
   const fetchOffer = async () => {
-    const { data, error } = await supabase.from('offers').select('*').eq('id', id).single();
-    if (data) setFormData(data);
+    const { data } = await supabase.from('offers').select('*').eq('id', id).single();
+    if (data) {
+      setFormData({
+        ...EMPTY_FORM,
+        ...data,
+        tags: data.tags || [],
+        images: data.images || [],
+        currency: data.currency || 'BRL'
+      });
+      setGalleryInput((data.images || []).join('\n'));
+      setOriginalPrice(data.price);
+    }
     setInitialLoading(false);
   };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
+    if (name === 'slug') setSlugError('');
     setFormData(prev => {
       const updates = { ...prev, [name]: value };
-      // Auto-generate slug from title if not manually edited
       if (name === 'title' && !isEdit) {
-        updates.slug = value.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/(^-|-$)+/g, '');
+        updates.slug = generateSlug(value);
+        setSlugError('');
       }
       return updates;
     });
+  };
+
+  const suggestSlug = (base) => {
+    const normalized = base || 'oferta';
+    const suffix = Math.floor(100 + Math.random() * 900);
+    return `${normalized}-${suffix}`;
+  };
+
+  const handleAddTag = () => {
+    if (!tagInput.trim()) return;
+    setFormData(prev => ({ ...prev, tags: Array.from(new Set([...(prev.tags || []), tagInput.trim()])) }));
+    setTagInput('');
+  };
+
+  const handleImageUpload = async (event) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    setUploadError('');
+    setUploading(true);
+    try {
+      const sanitizedName = file.name.replace(/\s+/g, '-').toLowerCase();
+      const filePath = `offers/${Date.now()}-${sanitizedName}`;
+      const { error: uploadError } = await supabase.storage.from('offers').upload(filePath, file, {
+        cacheControl: '3600',
+        upsert: false,
+      });
+      if (uploadError) throw uploadError;
+
+      const { data: publicUrlData } = supabase.storage.from('offers').getPublicUrl(filePath);
+      const publicUrl = publicUrlData?.publicUrl;
+      if (!publicUrl) throw new Error('Não foi possível obter a URL pública da imagem.');
+
+      setFormData(prev => ({ ...prev, image_url: publicUrl }));
+      toast({ title: 'Imagem enviada', description: 'Link atualizado no formulário.' });
+    } catch (error) {
+      console.error(error);
+      setUploadError(error.message || 'Falha ao enviar imagem.');
+      toast({ variant: 'destructive', title: 'Erro no upload', description: error.message || 'Falha ao enviar imagem.' });
+    } finally {
+      setUploading(false);
+      if (fileInputRef.current) fileInputRef.current.value = '';
+    }
+  };
+
+  const handleGalleryUpload = async (event) => {
+    const files = Array.from(event.target.files || []);
+    if (!files.length) return;
+    setUploadError('');
+    setGalleryUploading(true);
+    try {
+      const uploadedUrls = [];
+      for (const file of files) {
+        const sanitizedName = file.name.replace(/\s+/g, '-').toLowerCase();
+        const filePath = `offers/gallery-${Date.now()}-${sanitizedName}`;
+        const { error: uploadErr } = await supabase.storage.from('offers').upload(filePath, file, {
+          cacheControl: '3600',
+          upsert: false
+        });
+        if (uploadErr) throw uploadErr;
+        const { data: publicUrlData } = supabase.storage.from('offers').getPublicUrl(filePath);
+        const publicUrl = publicUrlData?.publicUrl;
+        if (publicUrl) uploadedUrls.push(publicUrl);
+      }
+      const merged = [...galleryInput.split('\n').filter(Boolean), ...uploadedUrls];
+      setGalleryInput(merged.join('\n'));
+      toast({ title: 'Imagens adicionadas', description: `${uploadedUrls.length} imagens incluídas na galeria.` });
+    } catch (error) {
+      console.error(error);
+      setUploadError(error.message || 'Falha ao enviar imagens.');
+      toast({ variant: 'destructive', title: 'Erro no upload', description: error.message || 'Falha ao enviar imagens.' });
+    } finally {
+      setGalleryUploading(false);
+      if (galleryInputRef.current) galleryInputRef.current.value = '';
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -61,22 +178,35 @@ const AdminOfferForm = () => {
       return;
     }
 
+    const unique = await checkSlugUnique(formData.slug);
+    if (!unique) return;
+
     setLoading(true);
+    const payload = {
+      ...formData,
+      price: parseFloat(formData.price),
+      price_original: formData.price_original ? parseFloat(formData.price_original) : null,
+      discount_percentage: formData.discount_percentage ? parseFloat(formData.discount_percentage) : null,
+      tags: formData.tags,
+      video_url: formData.video_url,
+      images: galleryInput.split('\n').filter(Boolean),
+      updated_at: new Date().toISOString()
+    };
+
     try {
-      const payload = {
-        ...formData,
-        price: parseFloat(formData.price),
-        updated_at: new Date().toISOString()
-      };
-
-      let result;
       if (isEdit) {
-        result = await supabase.from('offers').update(payload).eq('id', id);
+        const { error } = await supabase.from('offers').update(payload).eq('id', id);
+        if (error) throw error;
+        if (originalPrice && originalPrice !== payload.price) {
+          await supabase.from('price_history').insert([{ offer_id: id, price: payload.price, currency: payload.currency }]);
+        }
       } else {
-        result = await supabase.from('offers').insert([{ ...payload, created_at: new Date().toISOString() }]);
+        const { data, error } = await supabase.from('offers').insert([{ ...payload, created_at: new Date().toISOString() }]).select().single();
+        if (error) throw error;
+        if (data?.id) {
+          await supabase.from('price_history').insert([{ offer_id: data.id, price: payload.price, currency: payload.currency }]);
+        }
       }
-
-      if (result.error) throw result.error;
 
       toast({ title: "Sucesso", description: `Oferta ${isEdit ? 'atualizada' : 'criada'} com sucesso` });
       navigate('/admin/offers');
@@ -95,7 +225,46 @@ const AdminOfferForm = () => {
     }
   };
 
-  if (initialLoading) return <div className="p-8 text-center text-gray-500">Carregando formulário...</div>;
+  const checkSlugUnique = async (slugValue) => {
+    if (!slugValue) return false;
+    setCheckingSlug(true);
+    try {
+      let query = supabase.from('offers').select('id').eq('slug', slugValue);
+      if (isEdit) query = query.neq('id', id);
+      const { data, error } = await query.limit(1);
+      if (error) throw error;
+      const exists = data && data.length > 0;
+      if (exists) {
+        const suggestion = suggestSlug(slugValue);
+        setSlugError(`Slug já existe. Sugestão: ${suggestion}`);
+        toast({ variant: 'destructive', title: 'Slug indisponível', description: 'Escolha outro slug.' });
+        return false;
+      }
+      setSlugError('');
+      return true;
+    } catch (err) {
+      setSlugError(err.message || 'Erro ao verificar slug');
+      toast({ variant: 'destructive', title: 'Erro', description: err.message || 'Falha ao checar slug.' });
+      return false;
+    } finally {
+      setCheckingSlug(false);
+    }
+  };
+
+  const formattedPreviewPrice = useMemo(() => {
+    if (!formData.price) return formatPrice(0);
+    return formatPrice(formData.price, { from: formData.currency });
+  }, [formData.price, formData.currency, formatPrice]);
+
+  if (initialLoading) {
+    return (
+      <div className="p-6 max-w-[1600px] mx-auto space-y-4">
+        <Skeleton className="h-8 w-48" />
+        <Skeleton className="h-10 w-full" />
+        <Skeleton className="h-10 w-full" />
+      </div>
+    );
+  }
 
   return (
     <div className="p-6 max-w-[1600px] mx-auto">
@@ -122,7 +291,15 @@ const AdminOfferForm = () => {
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <label className="text-sm font-medium text-gray-400">Slug</label>
-                <Input name="slug" value={formData.slug} onChange={handleChange} className="bg-[#0a0a0a] border-white/10 text-white" />
+                <Input
+                  name="slug"
+                  value={formData.slug}
+                  onChange={handleChange}
+                  onBlur={(e) => checkSlugUnique(e.target.value)}
+                  className="bg-[#0a0a0a] border-white/10 text-white"
+                />
+                {slugError && <p className="text-xs text-red-400 mt-1">{slugError}</p>}
+                {checkingSlug && <p className="text-xs text-gray-500 mt-1">Verificando disponibilidade...</p>}
               </div>
               <div>
                 <label className="text-sm font-medium text-gray-400">Preço</label>
@@ -130,15 +307,14 @@ const AdminOfferForm = () => {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-3 gap-4">
               <div>
-                <label className="text-sm font-medium text-gray-400">Categoria</label>
-                <select name="category" value={formData.category} onChange={handleChange} className="w-full bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white text-sm h-10 mt-1">
-                  <option value="">Selecionar Categoria</option>
-                  <option value="Gadgets">Gadgets</option>
-                  <option value="Beleza">Beleza</option>
-                  <option value="Casa">Casa</option>
-                  <option value="Coleções">Coleções</option>
+                <label className="text-sm font-medium text-gray-400">Moeda</label>
+                <select name="currency" value={formData.currency} onChange={handleChange} className="w-full bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white text-sm h-10 mt-1">
+                  <option value="BRL">BRL</option>
+                  <option value="USD">USD</option>
+                  <option value="EUR">EUR</option>
+                  <option value="GBP">GBP</option>
                 </select>
               </div>
               <div>
@@ -148,6 +324,65 @@ const AdminOfferForm = () => {
                   <option value="published">Publicado</option>
                 </select>
               </div>
+              <div>
+                <label className="text-sm font-medium text-gray-400">Preço Original</label>
+                <Input
+                  name="price_original"
+                  type="number"
+                  step="0.01"
+                  value={formData.price_original}
+                  onChange={handleChange}
+                  className="bg-[#0a0a0a] border-white/10 text-white"
+                  placeholder="Preço antes do desconto"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-3 gap-4">
+              <div>
+                <label className="text-sm font-medium text-gray-400">% Desconto</label>
+                <Input
+                  name="discount_percentage"
+                  type="number"
+                  step="1"
+                  value={formData.discount_percentage}
+                  onChange={handleChange}
+                  className="bg-[#0a0a0a] border-white/10 text-white"
+                  placeholder="Ex: 25"
+                />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-gray-400">Categoria</label>
+                <select name="category" value={formData.category} onChange={handleChange} className="w-full bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white text-sm h-10 mt-1">
+                  <option value="">Selecionar Categoria</option>
+                  {categories.map(cat => (
+                    <option key={cat.slug || cat.id} value={cat.name}>{cat.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-400 flex items-center gap-2">Tags <TagIcon size={14} /></label>
+                <div className="flex gap-2">
+                  <Input 
+                    placeholder="tech, casa, beleza" 
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    className="bg-[#0a0a0a] border-white/10 text-white"
+                  />
+                  <Button type="button" variant="outline" onClick={handleAddTag}><Plus size={14} /></Button>
+                </div>
+                <div className="flex flex-wrap gap-2 mt-2">
+                  {(formData.tags || []).map(tag => (
+                    <span key={tag} className="px-2 py-1 bg-white/5 rounded text-xs text-gray-200 border border-white/10">
+                      {tag}
+                    </span>
+                  ))}
+                  {formData.tags?.length === 0 && <span className="text-xs text-gray-500">Sem tags</span>}
+                </div>
+              </div>
             </div>
 
             <div>
@@ -155,9 +390,89 @@ const AdminOfferForm = () => {
               <Textarea name="description" value={formData.description} onChange={handleChange} className="bg-[#0a0a0a] border-white/10 text-white h-32" />
             </div>
 
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-gray-400">URL da Imagem Principal</label>
+                <div className="flex gap-2">
+                  <Input
+                    name="image_url"
+                    value={formData.image_url}
+                    onChange={handleChange}
+                    className="bg-[#0a0a0a] border-white/10 text-white"
+                    placeholder="https://..."
+                  />
+                  <input
+                    type="file"
+                    accept="image/*"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    className="hidden"
+                  />
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="whitespace-nowrap"
+                    onClick={() => fileInputRef.current?.click()}
+                    disabled={uploading}
+                  >
+                    {uploading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Upload'}
+                  </Button>
+                </div>
+                {uploadError && <p className="text-xs text-red-400 mt-1">{uploadError}</p>}
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-400">URL Shopee</label>
+                <Input name="shopee_url" value={formData.shopee_url} onChange={handleChange} className="bg-[#0a0a0a] border-white/10 text-white" />
+              </div>
+            </div>
+
+            <div className="grid grid-cols-2 gap-4">
+              <div>
+                <label className="text-sm font-medium text-gray-400">Vídeo demonstrativo (URL)</label>
+                <Input
+                  name="video_url"
+                  value={formData.video_url}
+                  onChange={handleChange}
+                  className="bg-[#0a0a0a] border-white/10 text-white"
+                  placeholder="https://youtu.be/..."
+                />
+              </div>
+              <div>
+                <label className="text-sm font-medium text-gray-400">Upload para galeria</label>
+                <div className="flex gap-2 items-center">
+                  <input
+                    type="file"
+                    accept="image/*"
+                    multiple
+                    ref={galleryInputRef}
+                    onChange={handleGalleryUpload}
+                    className="hidden"
+                  />
+                  <Button type="button" variant="outline" onClick={() => galleryInputRef.current?.click()} disabled={galleryUploading}>
+                    {galleryUploading ? <Loader2 className="h-4 w-4 animate-spin" /> : 'Enviar imagens'}
+                  </Button>
+                  {galleryUploading && <span className="text-xs text-gray-400">Enviando...</span>}
+                </div>
+              </div>
+            </div>
+
+            {formData.image_url && (
+              <div className="mt-2">
+                <p className="text-xs text-gray-400 mb-1">Pré-visualização</p>
+                <div className="bg-[#0a0a0a] border border-white/10 rounded-lg p-2">
+                  <img src={formData.image_url} alt="Pré-visualização" className="max-h-48 object-contain mx-auto" />
+                </div>
+              </div>
+            )}
+
             <div>
-              <label className="text-sm font-medium text-gray-400">URL da Imagem</label>
-              <Input name="image_url" value={formData.image_url} onChange={handleChange} className="bg-[#0a0a0a] border-white/10 text-white" />
+              <label className="text-sm font-medium text-gray-400">Galeria (um link por linha)</label>
+              <Textarea value={galleryInput} onChange={(e) => setGalleryInput(e.target.value)} className="bg-[#0a0a0a] border-white/10 text-white h-24" />
+            </div>
+
+            <div>
+              <label className="text-sm font-medium text-gray-400">Texto do CTA WhatsApp</label>
+              <Input name="whatsapp_cta_text" value={formData.whatsapp_cta_text} onChange={handleChange} className="bg-[#0a0a0a] border-white/10 text-white" />
             </div>
           </div>
           
@@ -181,9 +496,10 @@ const AdminOfferForm = () => {
                </div>
                <div className="p-4">
                  <h4 className="text-white font-bold text-lg mb-2">{formData.title || 'Título da Oferta'}</h4>
-                 <p className="text-orange-500 font-bold text-xl mb-4">
-                   {formData.price ? `R$ ${formData.price}` : 'R$ 0,00'}
+                 <p className="text-orange-500 font-bold text-xl mb-1">
+                   {formattedPreviewPrice}
                  </p>
+                 <p className="text-xs text-gray-400 mb-4">{formData.category || 'Categoria'}</p>
                  <Button className="w-full bg-orange-600 text-white">Ver Achado</Button>
                </div>
              </div>

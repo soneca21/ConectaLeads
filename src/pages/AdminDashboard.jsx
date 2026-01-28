@@ -1,7 +1,7 @@
 
-import React, { useEffect, useState } from 'react';
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell } from 'recharts';
-import { Users, TrendingUp, MessageCircle, Clock, Activity } from 'lucide-react';
+import React, { useEffect, useMemo, useState } from 'react';
+import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, BarChart, Bar, Legend } from 'recharts';
+import { Users, TrendingUp, MessageCircle, Clock, Activity, AlertTriangle } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { supabase } from '@/lib/supabase';
 import { formatDistanceToNow } from 'date-fns';
@@ -14,7 +14,12 @@ const AdminDashboard = () => {
     totalLeads: 0,
     leadsByStage: [],
     avgScore: 0,
-    recentConversations: []
+    recentConversations: [],
+    conversionRate: 0,
+    avgCloseDays: 0,
+    revenueSeries: [],
+    channelEngagement: [],
+    alerts: []
   });
   const [loading, setLoading] = useState(true);
 
@@ -23,39 +28,64 @@ const AdminDashboard = () => {
       try {
         setLoading(true);
         
-        // 1. Total Leads
-        const { count: totalLeads } = await supabase
-          .from('leads')
-          .select('*', { count: 'exact', head: true });
+        const [{ data: leads, count: totalLeads }, { data: conversations }, { data: orders }] = await Promise.all([
+          supabase.from('leads').select('id,stage,score,created_at,updated_at,source', { count: 'exact' }),
+          supabase.from('conversations').select('id, updated_at, status, channel, lead:leads(name)').order('updated_at', { ascending: false }),
+          supabase.from('orders').select('status,total_amount,currency,created_at')
+        ]);
 
-        // 2. Leads by Stage
-        const { data: leads } = await supabase
-          .from('leads')
-          .select('stage, score');
-        
+        // Pipeline
         const stageMap = {};
         let totalScore = 0;
-        
         leads?.forEach(lead => {
           stageMap[lead.stage] = (stageMap[lead.stage] || 0) + 1;
           totalScore += (lead.score || 0);
         });
-
         const leadsByStage = Object.entries(stageMap).map(([name, value]) => ({ name, value }));
-        const avgScore = leads?.length ? Math.round(totalScore / leads.length) : 0;
+        const avgScore = leads?.length ? Math.round(totalScore / (leads.length || 1)) : 0;
 
-        // 3. Recent Conversations
-        const { data: recentConversations } = await supabase
-          .from('conversations')
-          .select('id, updated_at, status, lead:leads(name)')
-          .order('updated_at', { ascending: false })
-          .limit(5);
+        // Conversion rate & average close time (rough: won stage)
+        const won = leads?.filter(l => l.stage === 'won') || [];
+        const conversionRate = leads?.length ? Math.round((won.length / leads.length) * 100) : 0;
+        const avgCloseDays = won.length
+          ? Math.round(won.reduce((acc, l) => acc + ((new Date(l.updated_at || l.created_at) - new Date(l.created_at)) / (1000 * 3600 * 24)), 0) / won.length)
+          : 0;
+
+        // Revenue series (orders per week)
+        const revenueBuckets = {};
+        orders?.forEach(o => {
+          const d = new Date(o.created_at);
+          const key = `${d.getFullYear()}-W${Math.ceil((d.getDate() + 6 - d.getDay()) / 7)}`;
+          revenueBuckets[key] = (revenueBuckets[key] || 0) + Number(o.total_amount || 0);
+        });
+        const revenueSeries = Object.entries(revenueBuckets).map(([week, value]) => ({ week, value }));
+
+        // Channel engagement (conversations by channel)
+        const channelBuckets = {};
+        conversations?.forEach(c => {
+          const ch = c.channel || 'whatsapp';
+          channelBuckets[ch] = (channelBuckets[ch] || 0) + 1;
+        });
+        const channelEngagement = Object.entries(channelBuckets).map(([channel, value]) => ({ channel, value }));
+
+        // Alerts
+        const alerts = [];
+        if (conversionRate < 10) alerts.push('Conversão abaixo de 10% - revise follow-ups.');
+        const openConvs = conversations?.filter(c => c.status === 'open') || [];
+        if (openConvs.length > 20) alerts.push('Muitas conversas abertas; distribua atendimento.');
+        const staleLeads = leads?.filter(l => l.stage !== 'won' && (Date.now() - new Date(l.updated_at || l.created_at)) > 7 * 24 * 3600 * 1000) || [];
+        if (staleLeads.length > 5) alerts.push('Leads sem contato há 7+ dias.');
 
         setStats({
           totalLeads: totalLeads || 0,
           leadsByStage,
           avgScore,
-          recentConversations: recentConversations || []
+          recentConversations: conversations?.slice(0, 5) || [],
+          conversionRate,
+          avgCloseDays,
+          revenueSeries,
+          channelEngagement,
+          alerts
         });
 
       } catch (error) {
@@ -110,6 +140,18 @@ const AdminDashboard = () => {
               {stats.recentConversations.filter(c => c.status === 'open').length}
             </div>
             <p className="text-xs text-gray-500 mt-1">Abertos agora</p>
+          </CardContent>
+        </Card>
+
+        <Card className="bg-[#1a1a1a] border-gray-800">
+          <CardHeader className="flex flex-row items-center justify-between space-y-0 pb-2">
+            <CardTitle className="text-sm font-medium text-gray-400">Conversão</CardTitle>
+            <TrendingUp className="h-4 w-4 text-purple-400" />
+          </CardHeader>
+          <CardContent>
+            <div className="text-2xl font-bold text-white">{stats.conversionRate}%</div>
+            <p className="text-xs text-gray-500 mt-1">Leads ganhos / total</p>
+            <p className="text-xs text-gray-500 mt-1">Tempo médio: {stats.avgCloseDays || '-'} dias</p>
           </CardContent>
         </Card>
       </div>
@@ -172,6 +214,61 @@ const AdminDashboard = () => {
           </CardContent>
         </Card>
       </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-7 gap-6">
+        <Card className="col-span-1 lg:col-span-4 bg-[#1a1a1a] border-gray-800">
+          <CardHeader>
+            <CardTitle className="text-white">Receita por semana</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[280px]">
+            {stats.revenueSeries.length ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <LineChart data={stats.revenueSeries}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                  <XAxis dataKey="week" stroke="#888" />
+                  <YAxis stroke="#888" />
+                  <Tooltip contentStyle={{ background: '#1a1a1a', borderColor: '#333', color: '#fff' }} />
+                  <Line type="monotone" dataKey="value" stroke="#ff6b35" strokeWidth={3} dot={{ r: 3 }} />
+                </LineChart>
+              </ResponsiveContainer>
+            ) : <p className="text-gray-500">Sem pedidos sincronizados.</p>}
+          </CardContent>
+        </Card>
+
+        <Card className="col-span-1 lg:col-span-3 bg-[#1a1a1a] border-gray-800">
+          <CardHeader>
+            <CardTitle className="text-white">Engajamento por canal</CardTitle>
+          </CardHeader>
+          <CardContent className="h-[280px]">
+            {stats.channelEngagement.length ? (
+              <ResponsiveContainer width="100%" height="100%">
+                <BarChart data={stats.channelEngagement}>
+                  <CartesianGrid strokeDasharray="3 3" stroke="#333" />
+                  <XAxis dataKey="channel" stroke="#888" />
+                  <YAxis stroke="#888" />
+                  <Tooltip contentStyle={{ background: '#1a1a1a', borderColor: '#333', color: '#fff' }} />
+                  <Bar dataKey="value" fill="#00C49F" radius={[4,4,0,0]} />
+                </BarChart>
+              </ResponsiveContainer>
+            ) : <p className="text-gray-500">Sem conversas registradas.</p>}
+          </CardContent>
+        </Card>
+      </div>
+
+      {/* Alertas */}
+      <Card className="bg-[#1a1a1a] border-gray-800">
+        <CardHeader className="flex items-center gap-2">
+          <AlertTriangle className="text-yellow-400" size={18} />
+          <CardTitle className="text-white">Alertas inteligentes</CardTitle>
+        </CardHeader>
+        <CardContent className="space-y-2">
+          {stats.alerts.length ? stats.alerts.map((a, i) => (
+            <div key={i} className="text-sm text-yellow-200 bg-yellow-500/10 border border-yellow-500/20 px-3 py-2 rounded">
+              {a}
+            </div>
+          )) : <p className="text-gray-500 text-sm">Nenhum alerta no momento.</p>}
+        </CardContent>
+      </Card>
     </div>
   );
 };

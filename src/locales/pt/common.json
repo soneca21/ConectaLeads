@@ -1,0 +1,18 @@
+{
+  "settings": {
+    "title": "Configurações",
+    "tabs": {
+      "users": "Usuários",
+      "integrations": "Integrações",
+      "templates": "Templates",
+      "general": "Geral"
+    },
+    "general": {
+      "companyName": "Nome da Empresa",
+      "supportPhone": "Telefone de Suporte",
+      "whatsappNumber": "Número WhatsApp",
+      "language": "Idioma",
+      "save": "Salvar Mudanças"
+    }
+  }
+}

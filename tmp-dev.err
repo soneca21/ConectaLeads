@@ -1,0 +1,446 @@
+[2m21:27:39[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "@/components/ui/select" from "src/pages/AdminInbox.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/pages/AdminInbox.jsx[39m:10:23
+[33m  24 |  import ConversationItem from "@/components/admin/ConversationItem";
+  25 |  import MessageBubble from "@/components/admin/MessageBubble";
+  26 |  import { Select } from "@/components/ui/select";
+     |                          ^
+  27 |  const AdminInbox = () => {
+  28 |    _s();[39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 11)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m21:57:16[22m [31m[1m[vite][22m[39m [31mInternal server error: C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\src\pages\AdminDashboard.jsx: Unexpected token, expected "," (84:10)
+
+[0m [90m 82 |[31m           avgScore[33m,[31m
+ [90m 83 |[31m           recentConversations[33m:[31m recentConversations [33m||[31m []
+[31m[1m>[22m[31m[90m 84 |[31m           recentConversations[33m:[31m conversations[33m?[31m[33m.[31mslice([35m0[31m[33m,[31m [35m5[31m) [33m||[31m [][33m,[31m
+ [90m    |[31m           [31m[1m^[22m[31m
+ [90m 85 |[31m           conversionRate[33m,[31m
+ [90m 86 |[31m           avgCloseDays[33m,[31m
+ [90m 87 |[31m           revenueSeries[33m,[31m[0m[39m
+  Plugin: [35mvite:react-babel[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/pages/AdminDashboard.jsx[39m:84:10
+[33m  82 |            avgScore,
+  83 |            recentConversations: recentConversations || []
+  84 |            recentConversations: conversations?.slice(0, 5) || [],
+     |                      ^
+  85 |            conversionRate,
+  86 |            avgCloseDays,[39m
+      at constructor (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:359:19)
+      at JSXParserMixin.raise (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:3266:19)
+      at JSXParserMixin.unexpected (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:3286:16)
+      at JSXParserMixin.expect (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:3596:12)
+      at JSXParserMixin.parseObjectLike (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:11361:14)
+      at JSXParserMixin.parseExprAtom (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10885:23)
+      at JSXParserMixin.parseExprAtom (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:6818:20)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10619:23)
+      at JSXParserMixin.parseUpdate (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10604:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10584:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10438:61)
+      at JSXParserMixin.parseExprOps (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10443:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10420:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10383:21)
+      at C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10353:39
+      at JSXParserMixin.allowInAnd (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:11955:12)
+      at JSXParserMixin.parseMaybeAssignAllowIn (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10353:17)
+      at JSXParserMixin.parseExprListItem (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:11713:18)
+      at JSXParserMixin.parseCallExpressionArguments (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10788:22)
+      at JSXParserMixin.parseCoverCallAndAsyncArrowHead (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10722:29)
+      at JSXParserMixin.parseSubscript (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10659:19)
+      at JSXParserMixin.parseSubscripts (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10632:19)
+      at JSXParserMixin.parseExprSubscripts (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10623:17)
+      at JSXParserMixin.parseUpdate (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10604:21)
+      at JSXParserMixin.parseMaybeUnary (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10584:23)
+      at JSXParserMixin.parseMaybeUnaryOrPrivate (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10438:61)
+      at JSXParserMixin.parseExprOps (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10443:23)
+      at JSXParserMixin.parseMaybeConditional (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10420:23)
+      at JSXParserMixin.parseMaybeAssign (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10383:21)
+      at JSXParserMixin.parseExpressionBase (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10337:23)
+      at C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10333:39
+      at JSXParserMixin.allowInAnd (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:11950:16)
+      at JSXParserMixin.parseExpression (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10333:17)
+      at JSXParserMixin.parseStatementContent (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12394:23)
+      at JSXParserMixin.parseStatementLike (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12261:17)
+      at JSXParserMixin.parseStatementListItem (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12241:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12814:61)
+      at JSXParserMixin.parseBlockBody (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12807:10)
+      at JSXParserMixin.parseBlock (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12795:10)
+      at JSXParserMixin.parseTryStatement (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12703:23)
+      at JSXParserMixin.parseStatementContent (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12298:21)
+      at JSXParserMixin.parseStatementLike (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12261:17)
+      at JSXParserMixin.parseStatementListItem (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12241:17)
+      at JSXParserMixin.parseBlockOrModuleBlockBody (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12814:61)
+      at JSXParserMixin.parseBlockBody (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12807:10)
+      at JSXParserMixin.parseBlock (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:12795:10)
+      at JSXParserMixin.parseFunctionBody (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:11638:24)
+      at JSXParserMixin.parseArrowExpression (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:11613:10)
+      at JSXParserMixin.parseAsyncArrowFromCallExpression (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10800:10)
+      at JSXParserMixin.parseCoverCallAndAsyncArrowHead (C:\Users\Soneca\Desktop\horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c\node_modules\@babel\parser\lib\index.js:10730:27)
+[2m05:35:10[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:35:10[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:35:10[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:35:10[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:35:10[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:35:10[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:35:11[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:35:11[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:36:56[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:36:56[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:36:56[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:36:56[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:36:56[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:36:56[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:36:56[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:36:56[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:02[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:02[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:02[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:37:02[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:37:02[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:02[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:02[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:02[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:06[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:06[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:06[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:37:06[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:37:06[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:06[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:06[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:06[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:13[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:13[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:37:13[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:13[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:13[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:37:13[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:13[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:13[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:35[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:35[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:37:35[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:35[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:35[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:37:35[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:35[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:35[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:42[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:42[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:37:42[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:42[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:42[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:37:42[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:42[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:42[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:49[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:49[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:49[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:37:49[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:37:49[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:49[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:49[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:49[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:57[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:57[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:57[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:37:57[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:37:57[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:57[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:37:57[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:37:57[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:38:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:38:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:38:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:38:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:38:44[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:38:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:38:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:38:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:38:54[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:38:54[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:38:54[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:38:54[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:38:54[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:38:54[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:38:54[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:38:54[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:39:01[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:39:01[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/pages/AdminSettings.jsx". Does the file exist?
+[2m05:39:01[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:39:01[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:39:01[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:39:01[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:39:01[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:39:01[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:40:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:40:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:40:44[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:40:44[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:40:45[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:40:45[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:40:45[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:40:45[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:40:45[22m [31m[1m[vite][22m[39m [31mInternal server error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?[39m
+  Plugin: [35mvite:import-analysis[39m
+  File: [36mC:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/src/main.jsx[39m:6:32
+[33m  5  |  import "@/index.css";
+  6  |  import { LocalizationProvider } from "@/contexts/LocalizationContext";
+  7  |  import { I18nextProvider } from "react-i18next";
+     |                                   ^
+  8  |  import i18n from "@/i18n";
+  9  |  ReactDOM.createRoot(document.getElementById("root")).render([39m
+      at TransformPluginContext._formatError (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49258:41)
+      at TransformPluginContext.error (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49253:16)
+      at normalizeUrl (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64307:23)
+      at process.processTicksAndRejections (node:internal/process/task_queues:103:5)
+      at async file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64439:39
+      at async Promise.all (index 6)
+      at async TransformPluginContext.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:64366:7)
+      at async PluginContainer.transform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:49099:18)
+      at async loadAndTransform (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:51978:27)
+      at async viteTransformMiddleware (file:///C:/Users/Soneca/Desktop/horizons-export-97421ef3-9c69-4b4f-aa9c-2c2adb07a74c/node_modules/vite/dist/node/chunks/dep-BK3b2jBa.js:62106:24)
+[2m05:40:45[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?
+[2m05:40:45[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "react-i18next" from "src/main.jsx". Does the file exist?
+[2m05:40:45[22m [31m[1m[vite][22m[39m Pre-transform error: Failed to resolve import "i18next" from "src/i18n.js". Does the file exist?

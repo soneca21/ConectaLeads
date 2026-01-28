@@ -19,12 +19,14 @@ import AdminPipeline from '@/pages/AdminPipeline';
 import AdminInbox from '@/pages/AdminInbox';
 import AdminOffers from '@/pages/AdminOffers';
 import AdminOfferForm from '@/pages/AdminOfferForm';
+import AdminCatalog from '@/pages/AdminCatalog';
 
 import AdminSettings from '@/pages/AdminSettings';
 import AdminPrompts from '@/pages/AdminPrompts';
 import ShopeeCallback from '@/pages/ShopeeCallback';
 import AdminLeadForm from '@/pages/AdminLeadForm';
 import CategoryPage from '@/pages/CategoryPage';
+import Collections from '@/pages/Collections';
 import { useAuth } from '@/contexts/SupabaseAuthContext';
 import { useUserProfile } from '@/hooks/useUserProfile';
 
@@ -59,6 +61,7 @@ function App() {
           <Route path="/" element={<Home />} />
           <Route path="/o/:slug" element={<OfferDetail />} />
           <Route path="/category/:slug" element={<CategoryPage />} />
+          <Route path="/collections" element={<Collections />} />
           
           {/* Shopee OAuth Callback - Needs to be public/accessible */}
           <Route path="/api/shopee/auth/callback" element={<ShopeeCallback />} />
@@ -82,6 +85,7 @@ function App() {
             <Route path="offers" element={<AdminOffers />} />
             <Route path="offers/new" element={<AdminOfferForm />} />
             <Route path="offers/:id" element={<AdminOfferForm />} />
+            <Route path="catalog" element={<AdminCatalog />} />
             
             <Route path="prompts" element={<AdminPrompts />} />
             

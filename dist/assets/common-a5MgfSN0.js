@@ -1,0 +1,1 @@
+const e={title:"Settings",tabs:{users:"Users",integrations:"Integrations",templates:"Templates",general:"General"},general:{companyName:"Company Name",supportPhone:"Support Phone",whatsappNumber:"WhatsApp Number",language:"Language",save:"Save Changes"}},a={settings:e};export{a as default,e as settings};

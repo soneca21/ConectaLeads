@@ -1,7 +1,7 @@
 
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
-import { Phone, Calendar } from 'lucide-react';
+import { Phone, Calendar, Coins } from 'lucide-react';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
@@ -40,6 +40,12 @@ const KanbanCard = ({ lead, index, onClick }) => {
               <Calendar size={12} className="mr-2" />
               {lead.created_at ? formatDistanceToNow(new Date(lead.created_at), { locale: ptBR }) : 'N/A'}
             </div>
+            {lead.potential_value && (
+              <div className="flex items-center text-xs text-gray-300">
+                <Coins size={12} className="mr-2 text-orange-400" />
+                {lead.potential_value} {lead.currency || 'BRL'}
+              </div>
+            )}
           </div>
           
           <div className="mt-3 flex gap-1 flex-wrap">

@@ -4,7 +4,7 @@ import { cn } from '@/lib/utils';
 import { formatDistanceToNow } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 
-const ConversationItem = ({ conversation, isActive, onClick }) => {
+const ConversationItem = ({ conversation, isActive, onClick, unread = 0 }) => {
   return (
     <div
       onClick={() => onClick(conversation)}
@@ -17,9 +17,16 @@ const ConversationItem = ({ conversation, isActive, onClick }) => {
         <h4 className={cn("font-medium", isActive ? "text-white" : "text-gray-200")}>
           {conversation.lead?.name || 'Usuário Desconhecido'}
         </h4>
-        <span className="text-[10px] text-gray-500">
-           {conversation.updated_at && formatDistanceToNow(new Date(conversation.updated_at), { addSuffix: true, locale: ptBR })}
-        </span>
+        <div className="flex items-center gap-2">
+          {unread > 0 && (
+            <span className="text-[10px] px-1.5 py-0.5 rounded-full bg-orange-500/20 text-orange-400 font-semibold">
+              {unread}
+            </span>
+          )}
+          <span className="text-[10px] text-gray-500">
+             {conversation.updated_at && formatDistanceToNow(new Date(conversation.updated_at), { addSuffix: true, locale: ptBR })}
+          </span>
+        </div>
       </div>
       <p className="text-xs text-gray-400 line-clamp-1 mb-2">
         Prévia da última mensagem...
