@@ -15,7 +15,8 @@ const AdminInbox = () => {
   const [messages, setMessages] = useState([]);
   const [loading, setLoading] = useState(true);
   const [newMessage, setNewMessage] = useState("");
-  const [channel, setChannel] = useState('whatsapp');
+  // Default to Twilio WhatsApp integration instead of the Cloud API
+  const [channel, setChannel] = useState('twilio-whatsapp');
   const [templates, setTemplates] = useState([]);
   const [selectedTemplate, setSelectedTemplate] = useState('');
   const [channelFilter, setChannelFilter] = useState('');
@@ -138,11 +139,12 @@ const AdminInbox = () => {
   };
 
   const sendOutbound = async (to, text) => {
-    if (channel === 'whatsapp') {
-      await fetch('/api/send-whatsapp', {
+    // Twilio WhatsApp uses the same SMS endpoint (Twilio handles the channel internally)
+    if (channel === 'twilio-whatsapp') {
+      await fetch('/api/send-sms', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ to, text, template: selectedTemplate || undefined })
+        body: JSON.stringify({ to, text })
       });
     }
     if (channel === 'email') {
@@ -242,15 +244,15 @@ const AdminInbox = () => {
           <div className="space-y-2">
             <label className="text-xs text-gray-400">Canal ativo</label>
             <select
-              value={channel}
-              onChange={(e) => setChannel(e.target.value)}
-              className="w-full bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white text-sm"
-            >
-              <option value="whatsapp">WhatsApp</option>
-              <option value="email">Email</option>
-              <option value="sms">SMS</option>
-              <option value="telegram">Telegram</option>
-            </select>
+                value={channel}
+                onChange={(e) => setChannel(e.target.value)}
+                className="w-full bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white text-sm"
+              >
+                <option value="twilio-whatsapp">WhatsApp (Twilio)</option>
+                <option value="email">Email</option>
+                <option value="sms">SMS</option>
+                <option value="telegram">Telegram</option>
+              </select>
           </div>
           <div className="space-y-2">
             <label className="text-xs text-gray-400 flex items-center gap-1"><Filter size={12}/> Filtrar canal</label>
@@ -260,7 +262,6 @@ const AdminInbox = () => {
               className="w-full bg-[#0a0a0a] border border-white/10 rounded-md p-2 text-white text-sm"
             >
               <option value="">Todos</option>
-              <option value="whatsapp">WhatsApp</option>
               <option value="email">Email</option>
               <option value="sms">SMS</option>
               <option value="telegram">Telegram</option>
@@ -289,7 +290,8 @@ const AdminInbox = () => {
       <div className="flex-1 flex flex-col bg-[#0f0f0f]">
         {selectedConvId ? (
           <>
-            <div className="h-16 border-b border-white/5 flex items-center px-6 bg-[#1a1a1a] justify-between">
+            {/* WhatsApp‑style header */}
+            <div className="h-16 border-b border-white/5 flex items-center px-6 bg-[#075E54] justify-between">
                <div className="flex items-center gap-3">
                  <div className="w-10 h-10 rounded-full bg-orange-500/20 text-orange-500 flex items-center justify-center font-bold">
                    {selectedConversation?.lead?.name?.charAt(0) || '?'}
@@ -299,9 +301,9 @@ const AdminInbox = () => {
                    <p className="text-xs text-gray-400">{selectedConversation?.lead?.phone}</p>
                  </div>
                </div>
-               <Button variant="outline" size="sm" onClick={handleResolve} className="border-green-500/20 text-green-500 hover:bg-green-500/10">
-                  <CheckCircle size={16} className="mr-2" /> Marcar como Resolvido
-               </Button>
+              <Button variant="outline" size="sm" onClick={handleResolve} className="border-green-500/20 text-green-500 hover:bg-green-500/10">
+                <CheckCircle size={16} className="mr-2" /> Marcar como Resolvido
+              </Button>
             </div>
 
             <div className="flex-1 overflow-y-auto p-6 bg-[#0f0f0f]">
@@ -311,7 +313,8 @@ const AdminInbox = () => {
               <div ref={messagesEndRef} />
             </div>
 
-            <div className="p-4 bg-[#1a1a1a] border-t border-white/5 space-y-3">
+            {/* WhatsApp‑style input bar */}
+            <div className="p-4 bg-[#f0f0f0] border-t border-white/5 space-y-3">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
                 <select
                   value={selectedTemplate}
@@ -329,7 +332,7 @@ const AdminInbox = () => {
               <div className="flex gap-2">
                 <Input 
                   placeholder="Digite uma mensagem..." 
-                  className="bg-[#0f0f0f] border-gray-700 text-white focus:border-orange-500" 
+                  className="bg-white border-gray-300 text-black focus:border-green-600" 
                   value={newMessage}
                   onChange={(e) => setNewMessage(e.target.value)}
                   onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
@@ -353,7 +356,7 @@ const AdminInbox = () => {
                 >
                   📎
                 </Button>
-                <Button className="bg-orange-600 hover:bg-orange-700" onClick={handleSendMessage}>
+                <Button className="bg-[#075E54] hover:bg-[#0a7a5e]" onClick={handleSendMessage}>
                   <Send size={18} />
                 </Button>
               </div>

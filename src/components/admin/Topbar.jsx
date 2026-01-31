@@ -96,7 +96,7 @@ const Topbar = () => {
   };
 
   return (
-    <div className="h-16 bg-[var(--bg-secondary)] border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-40 ml-[80px] md:ml-0 w-full shadow-sm">
+    <div className="h-16 bg-[var(--bg-secondary)] border-b border-white/5 flex items-center justify-between px-6 sticky top-0 z-40 w-full shadow-sm">
       <div className="hidden md:block text-[var(--text-secondary)] text-sm font-medium">
         Painel <span className="mx-2 text-gray-600">/</span> <span className="text-white">Visão Geral</span>
       </div>

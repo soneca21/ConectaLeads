@@ -12,10 +12,14 @@ export function useUserProfile(user) {
       return;
     }
     setLoading(true);
+    // Query the profile using the Supabase auth user ID instead of email.
+    // The `users` table stores the auth user UUID in the `id` column, which
+    // guarantees a unique match. Using email can fail when the email field is
+    // not populated or differs in case.
     supabase
       .from('users')
       .select('*')
-      .eq('email', user.email)
+      .eq('id', user.id)
       .single()
       .then(({ data }) => {
         setProfile(data);

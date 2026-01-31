@@ -36,13 +36,23 @@ const AdminLayout = () => {
 
   if (loading || loadingProfile) return <div className="p-8 text-center text-gray-500">Carregando...</div>;
   if (!user) return <Navigate to="/login" replace />;
-  if (!profile || (profile.role !== 'admin' && window.location.pathname.includes('settings'))) {
+  // Restrict access to the entire admin area for non‑admin users.
+  // Previously the check only applied when the URL contained "settings",
+  // which caused the restriction message to appear incorrectly on other
+  // admin pages when the profile was not yet loaded or the role check failed.
+  // Allow access for admin users. In some edge cases the profile may not be
+  // loaded yet (e.g., the admin record was just created) but we can still
+  // identify the admin by the email defined in the environment variables.
+  // The ADMIN_EMAIL constant is defined in SupabaseAuthContext, but we can
+  // safely fallback to the authenticated user's email.
+  const isAdmin = profile?.role === 'admin' || user?.email === import.meta.env.VITE_ADMIN_EMAIL;
+  if (!isAdmin) {
     return <div className="p-8 text-center text-red-500">Acesso restrito. Apenas administradores podem acessar esta área.</div>;
   }
   return (
     <div className="flex min-h-screen bg-[var(--bg-primary)]">
       <Sidebar />
-      <div className="flex-1 flex flex-col md:pl-[80px] lg:pl-[250px] transition-all duration-300">
+      <div className="flex-1 flex flex-col transition-all duration-300">
         <Topbar />
         <main className="flex-1 overflow-auto bg-[var(--bg-primary)]">
           <Outlet />

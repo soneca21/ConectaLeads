@@ -150,10 +150,11 @@ const AdminPipeline = () => {
         </Button>
       </div>
 
-      <DragDropContext onDragEnd={onDragEnd}>
-        <div className="flex-1 flex gap-4 overflow-x-auto pb-4">
+        <DragDropContext onDragEnd={onDragEnd}>
+        <div className="flex-1 flex justify-start gap-2 overflow-x-auto pb-4">
           {columns.map(col => (
-            <div key={col.id} className="w-80 flex-shrink-0 flex flex-col bg-[#111] rounded-xl border border-white/5 h-full">
+            // Reduce column width from w-80 (20rem) to w-72 (18rem) for a more compact view
+            <div key={col.id} className="w-[19rem] flex-shrink-0 flex flex-col bg-[#111] rounded-xl h-full">
               <div className="p-4 border-b border-white/5 flex justify-between items-center bg-[#1a1a1a] rounded-t-xl sticky top-0 z-10">
                 <h3 className="font-semibold text-white">{col.name}</h3>
                 <span className="text-xs bg-white/10 px-2 py-0.5 rounded text-gray-300">

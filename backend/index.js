@@ -154,6 +154,29 @@ app.post('/api/send-sms', async (req, res) => {
   }
 });
 
+  // Test Twilio SMS endpoint - sends a test message to a provided phone number
+  // Use body: { to: '+1234567890', text: 'Teste Twilio' }
+  app.post('/api/test-twilio', async (req, res) => {
+    const { to, text } = req.body;
+    if (!to || !text) {
+      return res.status(400).json({ error: 'Missing to or text' });
+    }
+    if (!twilioClient) {
+      return res.status(500).json({ error: 'Twilio not configured' });
+    }
+    try {
+      const result = await twilioClient.messages.create({
+        body: text,
+        from: process.env.TWILIO_PHONE_NUMBER,
+        to,
+      });
+      res.json({ success: true, sid: result.sid });
+    } catch (err) {
+      console.error('Twilio test error', err);
+      res.status(500).json({ error: err.message });
+    }
+  });
+
 app.get('/', (req, res) => {
   res.send('Backend do ConectaLeads rodando!');
 });

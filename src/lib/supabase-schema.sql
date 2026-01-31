@@ -422,3 +422,55 @@ create policy "Public read orders" on public.orders for select using (true);
 create policy "Public read order items" on public.order_items for select using (true);
 create policy "Public read shipments" on public.shipments for select using (true);
 create policy "Public read payouts" on public.payouts for select using (true);
+
+-- 21. AUDIT LOG
+create table if not exists public.audit_log (
+  id uuid default uuid_generate_v4() primary key,
+  actor_user_id uuid references public.users(id),
+  action text not null,
+  entity text not null,
+  entity_id uuid,
+  before_state jsonb default '{}'::jsonb,
+  after_state jsonb default '{}'::jsonb,
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+alter table public.audit_log enable row level security;
+create policy "Authenticated access audit_log" on public.audit_log for all using (auth.role() = 'authenticated');
+
+-- 22. BOT CONFIG
+create table if not exists public.bot_config (
+  id uuid default uuid_generate_v4() primary key,
+  active_versions jsonb default '{}'::jsonb,
+  make_bot_token text,
+  updated_at timestamp with time zone default timezone('utc'::text, now()) not null
+);
+alter table public.bot_config enable row level security;
+create policy "Authenticated access bot_config" on public.bot_config for all using (auth.role() = 'authenticated');
+
+-- 23. PROMPT FLOWS
+create table if not exists public.prompt_flows (
+  id uuid default uuid_generate_v4() primary key,
+  name text not null,
+  "key" text unique not null,
+  status text default 'draft',
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now())
+);
+alter table public.prompt_flows enable row level security;
+create policy "Authenticated access prompt_flows" on public.prompt_flows for all using (auth.role() = 'authenticated');
+
+-- 24. PROMPT VERSIONS
+create table if not exists public.prompt_versions (
+  id uuid default uuid_generate_v4() primary key,
+  flow_id uuid references public.prompt_flows(id) on delete cascade,
+  version int not null,
+  status text default 'draft',
+  content text,
+  variables_schema jsonb default '{}'::jsonb,
+  rules jsonb default '{}'::jsonb,
+  created_by uuid references public.users(id),
+  created_at timestamp with time zone default timezone('utc'::text, now()) not null,
+  updated_at timestamp with time zone default timezone('utc'::text, now())
+);
+alter table public.prompt_versions enable row level security;
+create policy "Authenticated access prompt_versions" on public.prompt_versions for all using (auth.role() = 'authenticated');

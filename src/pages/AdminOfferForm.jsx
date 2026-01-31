@@ -421,8 +421,8 @@ const AdminOfferForm = () => {
                 {uploadError && <p className="text-xs text-red-400 mt-1">{uploadError}</p>}
               </div>
               <div>
-                <label className="text-sm font-medium text-gray-400">URL Shopee</label>
-                <Input name="shopee_url" value={formData.shopee_url} onChange={handleChange} className="bg-[#0a0a0a] border-white/10 text-white" />
+                <label className="text-sm font-medium text-gray-400">URL Afiliado Shopee</label>
+                <Input name="shopee_url" value={formData.shopee_url} onChange={handleChange} placeholder="https://shopee.com/... (link afiliado)" className="bg-[#0a0a0a] border-white/10 text-white" />
               </div>
             </div>
 

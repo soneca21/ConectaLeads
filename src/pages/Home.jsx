@@ -26,12 +26,12 @@ import { fetchCategories } from '@/lib/catalog';
 const Home = () => {
   const [featuredOffers, setFeaturedOffers] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [page, setPage] = useState(0);
-  const [total, setTotal] = useState(0);
+  // Load all offers in a single request (no pagination)
   const [order, setOrder] = useState({ column: 'created_at', ascending: false });
   const [categories, setCategories] = useState([]);
   const [loadingCategories, setLoadingCategories] = useState(true);
-  const pageSize = 6;
+  // Use a large page size to fetch all offers at once
+  const pageSize = 1000;
   const { t } = useLocalization();
 
   const collections = useMemo(

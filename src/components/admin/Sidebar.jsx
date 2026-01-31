@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { NavLink, useNavigate } from 'react-router-dom';
-import { LayoutDashboard, Users, GitPullRequest, Inbox, ShoppingBag, Settings, LogOut, ChevronLeft, ChevronRight, Sparkles, MessageSquare as MessageSquareCode, Tags } from 'lucide-react';
+import { LayoutDashboard, Users, GitPullRequest, Inbox, ShoppingBag, Settings, LogOut, ChevronLeft, ChevronRight, Sparkles, MessageSquare as MessageSquareCode, Tags, Home } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { signOut } from '@/lib/auth';
@@ -29,7 +29,8 @@ const Sidebar = () => {
   return (
     <motion.div 
       animate={{ width: collapsed ? 80 : 250 }}
-      className="h-screen bg-[var(--bg-secondary)] border-r border-white/5 flex flex-col fixed left-0 top-0 z-50 transition-all duration-300 shadow-xl"
+      // Removed fixed positioning so the sidebar participates in the flex layout and allows the main content to fill the remaining space when collapsed.
+      className="h-screen bg-[var(--bg-secondary)] border-r border-white/5 flex flex-col transition-all duration-300 shadow-xl"
     >
       <div className="p-4 flex items-center justify-between border-b border-white/5 h-16">
         {!collapsed && (
@@ -90,6 +91,22 @@ const Sidebar = () => {
       </nav>
 
       <div className="p-2 border-t border-white/5">
+        {/* Botão para ir à página pública */}
+        <button 
+          onClick={() => navigate('/')}
+          className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[var(--text-secondary)] hover:bg-white/10 hover:text-white transition-colors"
+        >
+          <Home size={22} className="shrink-0" />
+          {!collapsed && (
+            <motion.span 
+              initial={{ opacity: 0 }} 
+              animate={{ opacity: 1 }}
+              className="font-medium"
+            >
+              Página Pública
+            </motion.span>
+          )}
+        </button>
         <button 
           onClick={handleLogout}
           className="w-full flex items-center gap-3 px-3 py-3 rounded-lg text-[var(--text-secondary)] hover:bg-red-900/10 hover:text-red-500 transition-colors"

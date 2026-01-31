@@ -6,17 +6,33 @@ import { Textarea } from '@/components/ui/textarea';
 import { Plus, RefreshCcw } from 'lucide-react';
 import { useToast } from '@/components/ui/use-toast';
 import { fetchCategories, fetchTags, upsertCategory, upsertTag } from '@/lib/catalog';
+import { supabase } from '@/lib/supabase';
+import { Link } from 'react-router-dom';
+import { Badge } from '@/components/ui/badge';
 
 const AdminCatalog = () => {
   const [categories, setCategories] = useState([]);
   const [tags, setTags] = useState([]);
   const [categoryForm, setCategoryForm] = useState({ name: '', slug: '', description: '', image_url: '' });
   const [tagForm, setTagForm] = useState({ name: '', slug: '' });
+  const [offers, setOffers] = useState([]);
+  const [loadingOffers, setLoadingOffers] = useState(true);
   const { toast } = useToast();
 
   const load = async () => {
     setCategories(await fetchCategories());
     setTags(await fetchTags());
+    // Load offers as well
+    try {
+      const { data, error } = await supabase.from('offers').select('id, title, price, currency, status').order('created_at', { ascending: false });
+      if (error) throw error;
+      setOffers(data || []);
+    } catch (e) {
+      console.error(e);
+      toast({ variant: 'destructive', title: 'Erro ao carregar ofertas', description: e.message });
+    } finally {
+      setLoadingOffers(false);
+    }
   };
 
   useEffect(() => {
@@ -92,6 +108,46 @@ const AdminCatalog = () => {
               ))}
               {categories.length === 0 && <p className="text-sm text-gray-500 py-3">Nenhuma categoria cadastrada.</p>}
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Offers Management */}
+        <Card className="bg-[#1a1a1a] border-white/5">
+          <CardHeader className="flex flex-row items-center justify-between">
+            <CardTitle className="text-white">Ofertas</CardTitle>
+            <Link to="/admin/offers/new">
+              <Button variant="outline" size="sm" className="bg-orange-600 hover:bg-orange-700 text-white">
+                <Plus size={14} className="mr-1" /> Nova Oferta
+              </Button>
+            </Link>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {loadingOffers ? (
+              <p className="text-gray-400">Carregando ofertas...</p>
+            ) : offers.length === 0 ? (
+              <p className="text-gray-500">Nenhuma oferta cadastrada.</p>
+            ) : (
+              <div className="grid gap-2">
+                {offers.map((offer) => (
+                  <div key={offer.id} className="flex items-center justify-between p-2 bg-[#0a0a0a] rounded">
+                    <div className="flex-1">
+                      <p className="text-white font-medium">{offer.title}</p>
+                      <p className="text-sm text-gray-400">
+                        {offer.price} {offer.currency}
+                      </p>
+                    </div>
+                    <Badge variant="outline" className={offer.status === 'published' ? 'text-green-500 border-green-500/50' : 'text-yellow-500 border-yellow-500/50'}>
+                      {offer.status === 'published' ? 'Publicado' : 'Rascunho'}
+                    </Badge>
+                    <Link to={`/admin/offers/${offer.id}`} className="ml-2">
+                      <Button variant="ghost" size="sm" className="text-gray-400 hover:text-white">
+                        Editar
+                      </Button>
+                    </Link>
+                  </div>
+                ))}
+              </div>
+            )}
           </CardContent>
         </Card>
 
